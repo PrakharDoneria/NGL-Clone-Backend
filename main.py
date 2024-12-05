@@ -7,9 +7,7 @@ import json
 app = Flask(__name__)
 CORS(app)
 
-DB_URI = os.getenv("DATABASE_URL")
-
-app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://freedb_admin-user:437Wa4Jbj%SQe?d@sql.freedb.tech:3306/freedb_ngl-clonedatabase"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
