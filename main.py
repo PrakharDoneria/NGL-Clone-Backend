@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS  # Import CORS
-from hotmail_flask_mailer.app import mailer_instance
+from flask_mail import Mail, Message  # Import Flask-Mail
 import json
 
 app = Flask(__name__)
@@ -9,9 +9,15 @@ app = Flask(__name__)
 # Enable CORS for the entire app
 CORS(app)
 
-email = os.getenv("HOTMAIL_EMAIL")
-password = os.getenv("HOTMAIL_PASSWORD")
-mailer_instance.save(email=email, password=password)
+# Set up email configuration
+app.config['MAIL_SERVER'] = 'smtp.live.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.getenv("HOTMAIL_EMAIL")
+app.config['MAIL_PASSWORD'] = os.getenv("HOTMAIL_PASSWORD")
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv("HOTMAIL_EMAIL")
+
+mail = Mail(app)
 
 messages = []
 
@@ -45,17 +51,19 @@ def submit_message():
         messages.append(message_data)
 
         email_content = json.dumps(message_data, indent=4)
-        status = mailer_instance.send(
-            receiver="prakhardoneria3@gmail.com",
+
+        msg = Message(
             subject="New Anonymous Message",
-            message=f"New message received on NGL Clone:\n\n{email_content}"
+            recipients=["prakhardoneria3@gmail.com"],
+            body=f"New message received on NGL Clone:\n\n{email_content}"
         )
 
+        mail.send(msg)
+
         messages.clear()
-        if not status:
-            return jsonify({"success": False, "message": "Failed to send email"}), 500
 
         return jsonify({"success": True, "message": "Message stored and email sent successfully!"}), 200
+
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
