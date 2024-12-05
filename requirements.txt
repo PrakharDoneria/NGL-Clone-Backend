@@ -1,3 +1,4 @@
 flask
 hotmail-flask-mailer
 python-dotenv
+flask-cors

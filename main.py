@@ -1,9 +1,13 @@
 import os
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Import CORS
 from hotmail_flask_mailer.app import mailer_instance
 import json
 
 app = Flask(__name__)
+
+# Enable CORS for the entire app
+CORS(app)
 
 email = os.getenv("HOTMAIL_EMAIL")
 password = os.getenv("HOTMAIL_PASSWORD")
