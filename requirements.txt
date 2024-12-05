@@ -1,0 +1,3 @@
+flask
+hotmail-flask-mailer
+python-dotenv
