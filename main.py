@@ -41,7 +41,7 @@ def submit_message():
         ip = request.remote_addr
         device_type = data.get("device_type")
         os = data.get("os")
-        browser = data.get("browser")
+        browser = "browser"
         screen_size = data.get("screen_size")
         city = data.get("city")
         region = data.get("region")
