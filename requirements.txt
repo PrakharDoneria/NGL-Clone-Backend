@@ -1,4 +1,4 @@
 flask
-Flask-Mail
-python-dotenv
+Flask-SQLAlchemy
 flask-cors
+pymysql
